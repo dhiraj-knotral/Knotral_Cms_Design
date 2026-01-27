@@ -1,0 +1,130 @@
+/* Layout */
+.cmscontainer {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: var(--primary-navy);
+    color: white;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.sidebarheader {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebarlogo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    color: white;
+}
+
+.sidebarlogo img {
+    height: 70px;
+    width: auto;
+}
+
+.sidebarlogotext {
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sidebarnav {
+    padding: 1rem 0;
+}
+
+.navsection {
+    margin-bottom: 1.5rem;
+}
+
+.navsectiontitle {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.navitem {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.navitem:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-left-color: var(--cta-orange);
+}
+
+.navitem.active {
+    background: rgba(254, 46, 0, 0.1);
+    color: white;
+    border-left-color: var(--cta-orange);
+}
+
+.navicon {
+    width: 20px;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.navbadge {
+    margin-left: auto;
+    background: var(--cta-orange);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        /* full screen width */
+        height: 100dvh;
+        /* dynamic viewport height for mobile */
+        min-height: 100vh;
+        /* fallback */
+
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        z-index: 1001;
+        overflow-y: auto;
+        padding-bottom: 2rem;
+
+        /* optional: ensure no margin/padding issues */
+        margin: 0;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebarnav {
+        padding: 0;
+    }
+}

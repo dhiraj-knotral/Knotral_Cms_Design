@@ -1,0 +1,521 @@
+        /* Content Area */
+        .contentarea {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pageheader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .pagetitle {
+            font-size: 2.5rem;
+            color: var(--primary-navy);
+            text-transform: uppercase;
+        }
+
+        .breadcrumb {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-gray);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cta-orange);
+        }
+
+        /* Form Layout */
+        .formcontainer {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        /* Main Form */
+        .mainform {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(26, 45, 71, 0.08);
+            overflow: hidden;
+        }
+
+        .formsection {
+            padding: 2rem;
+            border-bottom: 1px solid var(--bg-light);
+        }
+
+        .formsection:last-child {
+            border-bottom: none;
+        }
+
+        .sectiontitle {
+            font-size: 1.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--cta-orange);
+        }
+
+        .formrow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .formrow.full {
+            grid-template-columns: 1fr;
+        }
+
+        .formgroup {
+            margin-bottom: 1.5rem;
+        }
+
+        .formlabel {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .formlabel.required::after {
+            content: ' *';
+            color: var(--danger);
+        }
+
+        .forminput,
+        .formselect,
+        .formtextarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--bg-light);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .forminput:focus,
+        .formselect:focus,
+        .formtextarea:focus {
+            outline: none;
+            border-color: var(--cta-orange);
+        }
+
+        .formtextarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .formhelp {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-top: 0.3rem;
+        }
+
+        /* Image Upload */
+        .imageupload {
+            border: 2px dashed var(--bg-light);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .imageupload:hover {
+            border-color: var(--cta-orange);
+            background: rgba(254, 46, 0, 0.02);
+        }
+
+        .uploadicon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .uploadtext {
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .uploadbtn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: var(--cta-orange);
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .uploadbtn:hover {
+            background: #ff4d1a;
+        }
+
+        /* Checkbox/Radio Groups */
+        .checkboxgroup,
+        .radiogroup {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .checkboxitem,
+        .radioitem {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkboxitem input,
+        .radioitem input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkboxitem label,
+        .radioitem label {
+            cursor: pointer;
+        }
+
+        /* Tags Input */
+        .tagscontainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            border: 2px solid var(--bg-light);
+            border-radius: 8px;
+            min-height: 50px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--primary-navy);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .tagremove {
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .taginput {
+            flex: 1;
+            border: none;
+            outline: none;
+            min-width: 150px;
+            font-size: 0.95rem;
+        }
+
+        /* Sidebar Panel */
+        .sidebarpanel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panelcard {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(26, 45, 71, 0.08);
+            padding: 1.5rem;
+        }
+
+        .paneltitle {
+            font-size: 1.2rem;
+            color: var(--primary-navy);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--cta-orange);
+        }
+
+        /* Action Buttons */
+        .formactions {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            background: var(--bg-light);
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: 'Agency FB', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btnprimary {
+            background: var(--cta-orange);
+            color: white;
+        }
+
+        .btnprimary:hover {
+            background: #ff4d1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 46, 0, 0.3);
+        }
+
+        .btnsecondary {
+            background: var(--primary-navy);
+            color: white;
+        }
+
+        .btnsecondary:hover {
+            background: #2a4565;
+        }
+
+        .btnoutline {
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid var(--bg-light);
+        }
+
+        .btnoutline:hover {
+            border-color: var(--cta-orange);
+            color: var(--cta-orange);
+        }
+
+        .btndanger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btndanger:hover {
+            background: #dc2626;
+        }
+
+        /* Status Indicator */
+        .statusindicator {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .statusdot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+
+        .statusdot.draft {
+            background: var(--text-gray);
+        }
+
+        /* Schedule Options */
+        .scheduleoptions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .scheduleoption {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid var(--bg-light);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .scheduleoption.active {
+            border-color: var(--cta-orange);
+            background: rgba(254, 46, 0, 0.05);
+        }
+
+        .scheduleicon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+   /* ----- Large Tablets / Small Desktops ----- */
+@media (max-width: 1024px) {
+    .formcontainer {
+        grid-template-columns: 1fr; /* sidebar moves below */
+    }
+
+    .sidebarpanel {
+        order: -1; /* sidebar first */
+    }
+}
+
+/* ----- Tablets ----- */
+@media (max-width: 768px) {
+    .formrow {
+        grid-template-columns: 1fr; /* stack inputs vertically */
+    }
+
+    .pageheader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .formactions {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .pagetitle {
+        font-size: 2rem;
+    }
+
+    .sectiontitle {
+        font-size: 1.3rem;
+    }
+
+    .imageupload {
+        padding: 1.5rem;
+    }
+
+    .uploadicon {
+        font-size: 2.5rem;
+    }
+
+    .scheduleicon {
+        font-size: 1.8rem;
+    }
+}
+
+/* ----- Large Phones ----- */
+@media (max-width: 480px) {
+    .contentarea {
+        padding: 1rem;
+    }
+
+    .pagetitle {
+        font-size: 1.5rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.8rem;
+    }
+
+    .sectiontitle {
+        font-size: 1.1rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .forminput,
+    .formselect,
+    .formtextarea {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .formtextarea {
+        min-height: 100px;
+    }
+
+    .formactions {
+        padding: 1rem 0.5rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .imageupload {
+        padding: 1rem;
+    }
+
+    .uploadicon {
+        font-size: 2rem;
+    }
+
+    .scheduleoption {
+        padding: 0.8rem;
+    }
+
+    .scheduleicon {
+        font-size: 1.5rem;
+    }
+}
+
+/* ----- Small Phones ----- */
+@media (max-width: 360px) {
+    .pagetitle {
+        font-size: 1.2rem;
+    }
+
+    .sectiontitle {
+        font-size: 1rem;
+    }
+
+    .forminput,
+    .formselect,
+    .formtextarea {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .formtextarea {
+        min-height: 80px;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .imageupload {
+        padding: 0.8rem;
+    }
+
+    .uploadicon {
+        font-size: 1.5rem;
+    }
+
+    .scheduleoption {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .scheduleicon {
+        font-size: 1.2rem;
+    }
+
+    .tagscontainer {
+        padding: 0.5rem;
+        gap: 0.3rem;
+    }
+
+    .tag {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+}

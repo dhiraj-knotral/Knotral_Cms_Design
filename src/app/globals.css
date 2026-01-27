@@ -1,42 +1,73 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  @font-face {
+    font-family: 'Agency FB';
+    src: local('Agency FB'), local('AgencyFB');
+    font-weight: 400;
+    font-style: normal;
   }
-}
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  @font-face {
+    font-family: 'Agency FB';
+    src: local('Agency FB Bold'), local('AgencyFB-Bold');
+    font-weight: 700;
+    font-style: normal;
+  }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
   html {
-    color-scheme: dark;
+    scroll-behavior: smooth;
   }
-}
+
+  body {
+    font-family: var(--font-inter);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background: var(--bg-light);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  :root {
+    --primary-navy: #1A2D47;
+    --cta-orange: #FE2E00;
+    --cta-orange-hover: #D92800;
+    --text-gray: #798089;
+    --bg-light: #F8F9FA;
+    --white: #FFFFFF;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --text-dark: #2C3E50;
+
+
+  }
+
+  .cmscontainer {
+    display: flex;
+    min-height: 100vh;
+  }
+
+
+  /* Main Content */
+  .maincontent {
+    flex: 1;
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+
+  @media (max-width: 768px) {
+    .maincontent {
+      margin-left: 0;
+    }
+  }

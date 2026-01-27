@@ -1,0 +1,128 @@
+        .topbar {
+            background: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(26, 45, 71, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbarleft {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menutoggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-navy);
+        }
+
+        .searchbox {
+            display: flex;
+            align-items: center;
+            background: var(--bg-light);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            width: 300px;
+        }
+
+        .searchbox input {
+            border: none;
+            background: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.9rem;
+            margin-left: 0.5rem;
+        }
+
+        .topbarright {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notificationbtn {
+            position: relative;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: var(--text-gray);
+        }
+
+        .notificationbadge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--cta-orange);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .userprofile {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+        }
+
+        .useravatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--cta-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .userinfo {
+            text-align: right;
+        }
+
+        .username {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        .userrole {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+        }
+
+
+         @media (max-width: 768px) {
+            .menutoggle {
+                display: block;
+            }
+
+            .searchbox {
+                width: 200px;
+            }
+
+            .statsgrid {
+                grid-template-columns: 1fr;
+            }
+
+            .userinfo {
+                display: none;
+            }
+        }
