@@ -405,7 +405,7 @@ const EditWebinar = ({ webinar }) => {
 
         const formattedStartTime = formatTimeTo12Hour(startTime);
 
-        const cleanedSchemaMarkup = schemaMarkup?.trim();
+        // const cleanedSchemaMarkup = schemaMarkup?.trim();
 
         try {
             // Step 1: Update webinar
@@ -444,7 +444,7 @@ const EditWebinar = ({ webinar }) => {
                 //meta tags
                 metaTitle,
                 metaDescription,
-                schemaMarkup: cleanedSchemaMarkup
+                schemaMarkup
 
             };
 
@@ -525,8 +525,8 @@ const EditWebinar = ({ webinar }) => {
 
             const validPastSessions = pastSessions.filter(
                 session =>
-                    session.title?.trim() &&
-                    session.youtubeUrl?.trim() &&
+                    session.title &&
+                    session.youtubeUrl &&
                     session.date
             );
 
