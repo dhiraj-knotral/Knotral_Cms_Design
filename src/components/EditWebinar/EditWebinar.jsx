@@ -444,7 +444,7 @@ const EditWebinar = ({ webinar }) => {
                 //meta tags
                 metaTitle,
                 metaDescription,
-                schemaMarkup,
+                schemaMarkup
 
             };
 
