@@ -29,17 +29,23 @@ const EditWebinar = ({ webinar }) => {
     const [metaDescription, setMetaDescription] = useState("");
     // For files
     const [logoFile, setLogoFile] = useState(null);
-    const [trainerImageFile, setTrainerImageFile] = useState(null);
+
 
     // For files
     const [ogImageFile, setOgImageFile] = useState(null);
 
-    // Trainer info
-    const [trainerId, setTrainerId] = useState("");
-    const [trainerName, setTrainerName] = useState("");
-    const [trainerDesignation, setTrainerDesignation] = useState("");
-    const [trainerWorksAt, setTrainerWorksAt] = useState("");
-    const [trainerDescription, setTrainerDescription] = useState("");
+    const [trainers, setTrainers] = useState([
+        {
+            trainerId: "",
+            trainerName: "",
+            designation: "",
+            worksAt: "",
+            description: "",
+            imageFile: null,
+            preview: null,
+        }
+    ]);
+
     const [link, setLink] = useState("");
 
     const [schemaMarkup, setSchemaMarkup] = useState("");
@@ -237,14 +243,52 @@ const EditWebinar = ({ webinar }) => {
         setLogoPreview(URL.createObjectURL(file));
     };
 
+    const addTrainer = () => {
+    setTrainers([
+        ...trainers,
+        {
+            trainerName: "",
+            designation: "",
+            worksAt: "",
+            description: "",
+            trainerImageFile: null,
+            trainerPreview: null,
+        },
+    ]);
+};
+
     //Trainer Image
-    const handleTrainerImageChange = (e) => {
-        const file = e.target.files[0];
+    const handleTrainerImageChange = (e, index) => {
+        const file = e.target.files?.[0];
         if (!file) return;
 
-        setTrainerImageFile(file);
-        setTrainerPreview(URL.createObjectURL(file));
+        const updated = [...trainers];
+
+        // clean old preview if exists
+        if (updated[index].trainerPreview) {
+            URL.revokeObjectURL(updated[index].trainerPreview);
+        }
+
+        updated[index].trainerImageFile = file;
+        updated[index].trainerPreview = URL.createObjectURL(file);
+
+        setTrainers(updated);
     };
+
+    const removeTrainerImage = (index) => {
+    const updated = [...trainers];
+
+    // cleanup object URL if it exists
+    if (updated[index].trainerPreview) {
+        URL.revokeObjectURL(updated[index].trainerPreview);
+    }
+
+    updated[index].trainerImageFile = null;
+    updated[index].trainerPreview = null;
+
+    setTrainers(updated);
+};
+
 
     //Og Image
     const handleOgImageChange = (e) => {
@@ -307,15 +351,24 @@ const EditWebinar = ({ webinar }) => {
         setMetaDescription(webinar.metaDescription || "");
         setSchemaMarkup(webinar.schemaMarkup || "");
 
+         // Images (preview only)
+        setLogoPreview(webinar.logo?.url || null);
+        setOgImagePreview(webinar.ogImage?.url || null);
+
         if (!webinar?.trainer?.length) return;
 
-        const trainer = webinar.trainer[0];
+        setTrainers(
+            webinar.trainer.map(t => ({
+                trainerId: t._id || "",
+                trainerName: t.trainerName || "",
+                designation: t.designation || "",
+                worksAt: t.worksAt || "",
+                description: t.description || "",
+                imageFile: null,
+                trainerPreview: t.trainerImage?.url || null,
+            }))
+        );
 
-        setTrainerId(trainer._id || "");
-        setTrainerName(trainer.trainerName || "");
-        setTrainerDesignation(trainer.designation || "");
-        setTrainerWorksAt(trainer.worksAt || "");
-        setTrainerDescription(trainer.description || "");
 
         // Links
         setLink(webinar.link || "");
@@ -359,7 +412,7 @@ const EditWebinar = ({ webinar }) => {
                 : [""]
         );
 
-           if (!webinar?.pastSessions?.length) return;
+        if (!webinar?.pastSessions?.length) return;
 
         const sessions = webinar.pastSessions.map(session => ({
             title: session.title || "",
@@ -368,11 +421,6 @@ const EditWebinar = ({ webinar }) => {
         }));
 
         setPastSessions(sessions);
-
-        // Images (preview only)
-        setLogoPreview(webinar.logo?.url || null);
-        setTrainerPreview(webinar.trainer?.[0]?.trainerImage?.url || null);
-        setOgImagePreview(webinar.ogImage?.url || null);
 
     }, [webinar]);
 
@@ -484,25 +532,30 @@ const EditWebinar = ({ webinar }) => {
             }
 
             // Upload trainer
-            if (trainerName || trainerDesignation || trainerWorksAt || trainerDescription || trainerImageFile) {
+            for (const trainer of trainers) {
+                if (!trainer.trainerName && !trainer.designation && !trainer.worksAt) continue;
+
                 const fdTrainer = new FormData();
                 fdTrainer.append("webinarId", webinarId);
-                fdTrainer.append("trainerId", trainerId);
-                fdTrainer.append("trainerName", trainerName);
-                fdTrainer.append("designation", trainerDesignation);
-                fdTrainer.append("worksAt", trainerWorksAt);
-                fdTrainer.append("description", trainerDescription);
-                if (trainerImageFile) fdTrainer.append("image", trainerImageFile);
+                if (trainer.trainerId) fdTrainer.append("trainerId", trainer.trainerId);
+                fdTrainer.append("trainerName", trainer.trainerName);
+                fdTrainer.append("designation", trainer.designation);
+                fdTrainer.append("worksAt", trainer.worksAt);
+                fdTrainer.append("description", trainer.description);
+                if (trainer.imageFile) fdTrainer.append("image", trainer.imageFile);
 
-                const trainerRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/update-trainer`, {
-                    method: "POST",
-                    body: fdTrainer,
-                });
+                const res = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/update-trainer`,
+                    {
+                        method: "POST",
+                        body: fdTrainer,
+                    }
+                );
 
-                const trainerData = await trainerRes.json();
-                if (!trainerRes.ok) throw new Error(trainerData.message || "Trainer update failed");
-
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message || "Trainer update failed");
             }
+
 
             if (ogImageFile) {
                 const fdOg = new FormData();
@@ -1222,78 +1275,66 @@ const EditWebinar = ({ webinar }) => {
                                 </label>
 
                                 {/* Hidden file input */}
-                                <input
-                                    type="file"
-                                    accept="image/png, image/jpeg"
-                                    id="webinarLogoInput"
-                                    style={{ display: "none" }}
-                                    onChange={handleLogoChange}
-                                />
+                              <input
+    type="file"
+    accept="image/png, image/jpeg"
+    id="webinarLogoInput"
+    style={{ display: "none" }}
+    onChange={handleLogoChange}
+/>
+
 
                                 {/* Upload UI */}
-                                <div
-                                    className={styles.imageupload}
-                                    onClick={() =>
-                                        document.getElementById("webinarLogoInput").click()
-                                    }
-                                    style={{ position: "relative" }}
-                                >
-                                    {logoPreview ? (
-                                        <>
-                                            <img
-                                                src={logoPreview}
-                                                alt="Webinar Logo"
-                                                className={styles.previewImage}
-                                            />
+                               <div
+    className={styles.imageupload}
+    onClick={() =>
+        document.getElementById("webinarLogoInput")?.click()
+    }
+    style={{ position: "relative" }}
+>
+    {logoPreview ? (
+        <>
+            <img
+                src={logoPreview}
+                alt="Webinar Logo"
+                className={styles.previewImage}
+            />
 
-                                            {/* ❌ Cancel button */}
-                                            <button
-                                                type="button"
-                                                onClick={(e) => {
-                                                    e.stopPropagation(); // prevent file dialog
-                                                    setLogoFile(null);
-                                                    setLogoPreview(null);
+            {/* cancel icon */}
+            <button
+                type="button"
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setLogoFile(null);
+                    setLogoPreview(null);
 
-                                                    // reset file input (important!)
-                                                    document.getElementById("webinarLogoInput").value = "";
-                                                }}
-                                                style={{
-                                                    position: "absolute",
-                                                    top: "6px",
-                                                    right: "6px",
-                                                    width: "24px",
-                                                    height: "24px",
-                                                    borderRadius: "50%",
-                                                    border: "none",
-                                                    background: "rgba(0,0,0,0.6)",
-                                                    color: "#fff",
-                                                    fontSize: "16px",
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                ×
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className={styles.uploadicon}>🖼️</div>
-                                            <div className={styles.uploadtext}>
-                                                Click to upload or drag and drop
-                                            </div>
-                                            <div
-                                                className={styles.uploadtext}
-                                                style={{ fontSize: "0.85rem" }}
-                                            >
-                                                PNG, JPG up to 2MB (1200x600px recommended)
-                                            </div>
-                                            <div style={{ marginTop: "1rem" }}>
-                                                <span className={styles.uploadbtn}>
-                                                    Choose File
-                                                </span>
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
+                    const input = document.getElementById("webinarLogoInput");
+                    if (input) input.value = "";
+                }}
+                style={{
+                    position: "absolute",
+                    top: "6px",
+                    right: "6px",
+                    width: "24px",
+                    height: "24px",
+                    borderRadius: "50%",
+                    border: "none",
+                    background: "rgba(0,0,0,0.6)",
+                    color: "#fff",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                }}
+            >
+                ×
+            </button>
+        </>
+    ) : (
+        <div className={styles.uploadtext}>
+            Click to upload logo
+        </div>
+    )}
+</div>
+
                             </div>
 
 
@@ -1343,147 +1384,175 @@ const EditWebinar = ({ webinar }) => {
                         </div>
 
                         {/* Instructor Information */}
-                        <div className={styles.formsection}>
-                            <h2 className={styles.sectiontitle}>Instructor Information</h2>
+                        {trainers.map((trainer, index) => (
+                            <div className={styles.formsection} key={index}>
+                                <h2 className={styles.sectiontitle}>
+                                    Instructor Information {trainers.length > 1 && `#${index + 1}`}
+                                </h2>
 
-                            <div className={styles.formrow}>
+                                {/* Name + Title */}
+                                <div className={styles.formrow}>
+                                    <div className={styles.formgroup}>
+                                        <label className={`${styles.formlabel} ${styles.required}`}>
+                                            Instructor Name
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className={styles.forminput}
+                                            value={trainer.trainerName}
+                                            onChange={(e) => {
+                                                const updated = [...trainers];
+                                                updated[index].trainerName = e.target.value;
+                                                setTrainers(updated);
+                                            }}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className={styles.formgroup}>
+                                        <label className={`${styles.formlabel} ${styles.required}`}>
+                                            Instructor Title
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className={styles.forminput}
+                                            value={trainer.designation}
+                                            onChange={(e) => {
+                                                const updated = [...trainers];
+                                                updated[index].designation = e.target.value;
+                                                setTrainers(updated);
+                                            }}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Works At */}
                                 <div className={styles.formgroup}>
                                     <label className={`${styles.formlabel} ${styles.required}`}>
-                                        Instructor Name
+                                        Works At
                                     </label>
                                     <input
                                         type="text"
                                         className={styles.forminput}
-                                        placeholder="Full name"
-                                        value={trainerName}
-                                        onChange={(e) => setTrainerName(e.target.value)}
+                                        value={trainer.worksAt}
+                                        onChange={(e) => {
+                                            const updated = [...trainers];
+                                            updated[index].worksAt = e.target.value;
+                                            setTrainers(updated);
+                                        }}
                                         required
                                     />
                                 </div>
 
+                                {/* Description / Bio */}
                                 <div className={styles.formgroup}>
-                                    <label className={`${styles.formlabel} ${styles.required}`}>
-                                        Instructor Title
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className={styles.forminput}
-                                        placeholder="e.g., Senior Math Educator"
-                                        value={trainerDesignation}
-                                        onChange={(e) => setTrainerDesignation(e.target.value)}
-                                        required
+                                    <label className={styles.formlabel}>Instructor Bio</label>
+                                    <textarea
+                                        className={styles.formtextarea}
+                                        rows={4}
+                                        value={trainer.description}
+                                        onChange={(e) => {
+                                            const updated = [...trainers];
+                                            updated[index].description = e.target.value;
+                                            setTrainers(updated);
+                                        }}
                                     />
                                 </div>
-                            </div>
 
-                            <div className={styles.formgroup}>
-                                <label className={`${styles.formlabel} ${styles.required}`}>
-                                    Instructor Works At
-                                </label>
-                                <input
-                                    type="text"
-                                    className={styles.forminput}
-                                    placeholder="e.g., India Market Entry"
-                                    value={trainerWorksAt}
-                                    onChange={(e) => setTrainerWorksAt(e.target.value)}
-                                    required
-                                />
-                            </div>
+                                {/* Instructor Image */}
+                                {/* Instructor Image */}
+                                <div className={styles.formgroup}>
+                                    <label className={styles.formlabel}>Instructor Image</label>
 
-                            <div className={styles.formgroup}>
-                                <label className={styles.formlabel}>Instructor Bio</label>
-                                <textarea
-                                    className={styles.formtextarea}
-                                    placeholder="Brief biography..."
-                                    value={trainerDescription}
-                                    onChange={(e) => setTrainerDescription(e.target.value)}
-                                />
-                            </div>
+                                    {/* hidden file input */}
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        id={`trainerImageInput-${index}`}
+                                        style={{ display: "none" }}
+                                        onChange={(e) => handleTrainerImageChange(e, index)}
+                                    />
 
-                            <div className={styles.formgroup}>
-                                <label className={styles.formlabel}>Instructor Photo</label>
+                                    <div
+                                        className={styles.imageupload}
+                                        onClick={() =>
+                                            document
+                                                .getElementById(`trainerImageInput-${index}`)
+                                                ?.click()
+                                        }
+                                        style={{ position: "relative" }}
+                                    >
+                                        {trainer.trainerPreview ? (
+                                            <>
+                                                <img
+                                                    src={trainer.trainerPreview}
+                                                    alt="Instructor"
+                                                    className={styles.previewImage}
+                                                />
 
-                                {/* Hidden file input */}
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    id="trainerImageInput"
-                                    style={{ display: "none" }}
-                                    onChange={handleTrainerImageChange}
-                                />
+                                                {/* ❌ cancel icon */}
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        removeTrainerImage(index);
 
-                                <div
-                                    className={styles.imageupload}
-                                    onClick={() =>
-                                        document.getElementById("trainerImageInput").click()
-                                    }
-                                    style={{ position: "relative" }}
-                                >
-                                    {trainerPreview ? (
-                                        <>
-                                            <img
-                                                src={trainerPreview}
-                                                alt="Instructor"
-                                                className={styles.previewImage}
-                                            />
-
-                                            {/* ❌ Cancel button */}
-                                            <button
-                                                type="button"
-                                                onClick={(e) => {
-                                                    e.stopPropagation(); // prevent file dialog
-                                                    setTrainerImageFile(null);
-                                                    setTrainerPreview(null);
-
-                                                    // reset file input
-                                                    document.getElementById("trainerImageInput").value = "";
-                                                }}
-                                                style={{
-                                                    position: "absolute",
-                                                    top: "6px",
-                                                    right: "6px",
-                                                    width: "24px",
-                                                    height: "24px",
-                                                    borderRadius: "50%",
-                                                    border: "none",
-                                                    background: "rgba(0,0,0,0.6)",
-                                                    color: "#fff",
-                                                    fontSize: "16px",
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                ×
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <div className={styles.uploadicon}>👤</div>
+                                                        const input = document.getElementById(
+                                                            `trainerImageInput-${index}`
+                                                        );
+                                                        if (input) input.value = "";
+                                                    }}
+                                                    style={{
+                                                        position: "absolute",
+                                                        top: "6px",
+                                                        right: "6px",
+                                                        width: "24px",
+                                                        height: "24px",
+                                                        borderRadius: "50%",
+                                                        border: "none",
+                                                        background: "rgba(0,0,0,0.6)",
+                                                        color: "#fff",
+                                                        fontSize: "16px",
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
+                                                    ×
+                                                </button>
+                                            </>
+                                        ) : (
                                             <div className={styles.uploadtext}>
-                                                Upload instructor photo
+                                                Click to upload image
                                             </div>
-                                            <div style={{ marginTop: "1rem" }}>
-                                                <span className={styles.uploadbtn}>
-                                                    Choose File
-                                                </span>
-                                            </div>
-                                        </>
-                                    )}
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className={styles.formgroup}>
-                                <label className={`${styles.formlabel} ${styles.required}`}>
-                                    Bonus                                </label>
-                                <input
-                                    type="text"
-                                    className={styles.forminput}
-                                    placeholder="Bonus Text"
-                                    value={bonus}
-                                    onChange={(e) => setBonus(e.target.value)}
-                                    required
-                                />
+
+                                {/* Remove Instructor */}
+                                {trainers.length > 1 && (
+                                    <button
+                                        type="button"
+                                        className={styles.btnremove}
+                                        onClick={() =>
+                                            setTrainers(trainers.filter((_, i) => i !== index))
+                                        }
+                                    >
+                                        Remove Instructor
+                                    </button>
+                                )}
                             </div>
-                        </div>
+                        ))}
+
+{/* ➕ Add Instructor button */}
+<button
+    type="button"
+    className={`${styles.btn} ${styles.uploadbtn}`}
+    style={{ marginLeft: "8px" }}
+    onClick={addTrainer}
+>
+    Add Instructor
+</button>
 
 
                         {/* Past Sessions */}
