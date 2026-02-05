@@ -36,18 +36,6 @@ const CreateWebinar = () => {
     const [ogImageFile, setOgImageFile] = useState(null);
     const [link, setLink] = useState("");
 
-    // Trainer info
-    const [trainers, setTrainers] = useState([
-        {
-            name: "",
-            designation: "",
-            worksAt: "",
-            description: "",
-            imageFile: null,
-            preview: null,
-        },
-    ]);
-
     const [schemaMarkup, setSchemaMarkup] = useState("");
 
 
@@ -210,6 +198,26 @@ const CreateWebinar = () => {
         setLogoPreview(URL.createObjectURL(file));
     };
 
+    // Trainer info
+    const [trainers, setTrainers] = useState([
+        {
+            name: "",
+            designation: "",
+            worksAt: "",
+            description: "",
+            imageFile: null,
+            preview: null,
+        },
+    ]);
+
+    const handleOgImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setOgImageFile(file);
+        setOgImagePreview(URL.createObjectURL(file));
+    };
+
     const addTrainer = () => {
         setTrainers([
             ...trainers,
@@ -251,13 +259,6 @@ const CreateWebinar = () => {
         setTrainers(updated);
     };
 
-    const handleOgImageChange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        setOgImageFile(file);
-        setOgImagePreview(URL.createObjectURL(file));
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -359,45 +360,6 @@ const CreateWebinar = () => {
                 if (!logoRes.ok) throw new Error(logoData.message || "Logo upload failed");
             }
 
-            // Upload trainer
-            for (const trainer of trainers) {
-                const {
-                    trainerName,
-                    trainerDesignation,
-                    trainerWorksAt,
-                    trainerDescription,
-                    trainerImageFile,
-                } = trainer;
-
-                // basic validation
-                if (!trainerName || !trainerDesignation || !trainerWorksAt) continue;
-
-                const fdTrainer = new FormData();
-                fdTrainer.append("webinarId", webinarId);
-                fdTrainer.append("trainerName", trainerName);
-                fdTrainer.append("designation", trainerDesignation);
-                fdTrainer.append("worksAt", trainerWorksAt);
-                fdTrainer.append("description", trainerDescription || "");
-
-                if (trainerImageFile) {
-                    fdTrainer.append("trainerImage", trainerImageFile);
-                }
-
-                const trainerRes = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/add-trainer`,
-                    {
-                        method: "POST",
-                        body: fdTrainer, // ❗ no headers
-                    }
-                );
-
-                const trainerData = await trainerRes.json();
-
-                if (!trainerRes.ok) {
-                    throw new Error(trainerData.message || "Trainer upload failed");
-                }
-            }
-
             if (ogImageFile) {
                 const fdOg = new FormData();
                 fdOg.append("id", webinarId);
@@ -416,6 +378,40 @@ const CreateWebinar = () => {
                     throw new Error(ogData.message || "OG image upload failed");
                 }
             }
+
+            // Upload trainer
+            for (const trainer of trainers) {
+                const { name, designation, worksAt, description, imageFile } = trainer;
+
+                // basic validation
+                if (!name || !designation || !worksAt) continue;
+
+                const fdTrainer = new FormData();
+                fdTrainer.append("webinarId", webinarId);
+                fdTrainer.append("trainerName", name);
+                fdTrainer.append("designation", designation);
+                fdTrainer.append("worksAt", worksAt);
+                fdTrainer.append("description", description || "");
+
+                if (imageFile) {
+                    fdTrainer.append("trainerImage", imageFile, imageFile.name); // ✅ filename is important
+                }
+
+                const trainerRes = await fetch(
+                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/add-trainer`,
+                    {
+                        method: "POST",
+                        body: fdTrainer, // ❌ do NOT set headers
+                    }
+                );
+
+                const trainerData = await trainerRes.json();
+
+                if (!trainerRes.ok) {
+                    throw new Error(trainerData.message || "Trainer upload failed");
+                }
+            }
+
 
             // Redirect to webinar list
             router.push("/webinar-list");
