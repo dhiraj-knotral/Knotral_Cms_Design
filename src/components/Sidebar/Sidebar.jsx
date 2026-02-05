@@ -51,12 +51,19 @@ const Sidebar = React.forwardRef(({ open, webinars }, ref) => {
                         <span className={styles.navbadge}>{webinars?.count ?? 0}</span>
                     </Link>
 
-                     <Link
+                    <Link
                         href="/create-webinar"
                         className={`${styles.navitem} ${pathname === "/create-webinar" ? styles.active : ""}`}
                     >
                         <span className={styles.navicon}>📁</span>
                         Create Webinars
+                    </Link>
+                    <Link
+                        href="/registrations"
+                        className={`${styles.navitem} ${pathname === "/registrations" ? styles.active : ""}`}
+                    >
+                        <span className={styles.navicon}>🧾</span>
+                        Registrations
                     </Link>
                     {/* <a href="/cms/certifications" className={styles.navitem}>
                         <span className={styles.navicon}>🏆</span>

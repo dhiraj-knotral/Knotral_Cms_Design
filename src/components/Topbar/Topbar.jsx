@@ -38,7 +38,7 @@ const Topbar = ({ title, onMenuClick, menuToggleRef }) => {
                     ref={menuToggleRef}
                     className={styles.menutoggle}
                     onClick={(e) => {
-                        e.stopPropagation();  
+                        e.stopPropagation();
                         onMenuClick();
                     }}
                 >
@@ -71,16 +71,16 @@ const Topbar = ({ title, onMenuClick, menuToggleRef }) => {
                         <div className={styles.userrole}>Super Admin</div>
                     </div>
 
-                      {open && (
-            <div className={styles.dropdown}>
-              <button
-                className={styles.dropdownitem}
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
-          )}
+                    {open && (
+                        <div className={styles.dropdown}>
+                            <button
+                                className={styles.dropdownitem}
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

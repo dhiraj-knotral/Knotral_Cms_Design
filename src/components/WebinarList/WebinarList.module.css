@@ -87,6 +87,9 @@
      display: flex;
      gap: 0.5rem;
      align-items: flex-end;
+     flex-wrap: wrap;
+     /* 🔥 IMPORTANT */
+
  }
 
  .btnsecondary {
@@ -439,6 +442,19 @@
          padding: 0.45rem 0.8rem;
          font-size: 0.85rem;
      }
+
+     .filteractions {
+         width: 100%;
+         flex-direction: column;
+         align-items: stretch;
+         gap: 0.6rem;
+     }
+
+     .filteractions button,
+     .filteractions a {
+         width: 100%;
+         justify-content: center;
+     }
  }
 
  /* ----- Large Phones ----- */
@@ -517,9 +533,14 @@
          min-width: 36px;
      }
 
-     /* Optional: hide middle page numbers if many */
-     .pagebtn:not(.active):not(.prev):not(.next) {
-         display: none;
+     .filteractions {
+         gap: 0.5rem;
+     }
+
+     .filteractions button,
+     .filteractions a {
+         font-size: 10px;
+         padding: 10px 20px;
      }
  }
 
@@ -585,20 +606,18 @@
          font-size: 1rem;
      }
 
-     .pagination {
-         gap: 0.3rem;
-     }
+    .pagination {
+    gap: 0.4rem;
+  }
 
-     .pagebtn {
-         padding: 0.35rem 0.6rem;
-         font-size: 0.75rem;
-         min-width: 32px;
-         border-radius: 6px;
-     }
+  .pagebtn {
+    display: none;
+  }
 
-     /* Only show Prev, Active, Next */
-     .pagebtn:not(.active):not(.prev):not(.next) {
-         display: none;
-     }
+  .pagebtn.active,
+  .pagination a:first-child,
+  .pagination a:last-child {
+    display: inline-flex;
+  }
 
  }

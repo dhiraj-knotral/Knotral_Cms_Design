@@ -205,15 +205,6 @@ const WebinarList = ({ webinars, pagination, filters }) => {
                         <option value="Early Years">Early Years</option>
                     </select>
                 </div>
-                {/* <div className={styles.filtergroup}>
-                    <label className={styles.filterlabel}>Provider</label>
-                    <select className={styles.filterselect}>
-                        <option value="">All Providers</option>
-                        <option value="edshed">EdShed</option>
-                        <option value="matific">Matific</option>
-                        <option value="weskool">WeSkool House</option>
-                    </select>
-                </div> */}
                 <div className={styles.filteractions}>
                     <button className={styles.btnsecondary} onClick={resetFilters}>Reset</button>
                     <button className={styles.btnprimary} onClick={applyFilters}>Apply Filters</button>

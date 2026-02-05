@@ -9,6 +9,8 @@ const pageTitles = {
     "/dashboard": "Dashboard",
     "/webinar-list": "Manage Webinars",
     "/create-webinar": "Add New Webinar",
+    "/registrations": "Registrations",
+
 
 };
 
@@ -49,6 +51,12 @@ export default function CMSLayout({ children, webinars = [] }) {
     }, [sidebarOpen]);
 
     const pathname = usePathname();
+
+    useEffect(() => {
+  if (window.innerWidth <= 768) {
+    setSidebarOpen(false);
+  }
+}, [pathname]);
 
     return (
         <div className="cmscontainer">

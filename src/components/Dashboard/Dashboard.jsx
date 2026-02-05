@@ -97,6 +97,7 @@ const Dashboard = ({ webinars }) => {
                             <Link href="/webinar-list" className={styles.cardaction}>View All →</Link>
                         </div>
                         <div className={styles.cardbody}>
+                            <div className={styles.tablescroll}>
                             <table className={styles.datatable}>
                                 <thead>
                                     <tr>
@@ -144,6 +145,7 @@ const Dashboard = ({ webinars }) => {
                                     )}
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
 
