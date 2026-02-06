@@ -9,6 +9,7 @@ export const authFetch = async (url, options = {}) => {
 
   let res = await fetch(url, {
     ...options,
+    credentials: "include", // ✅ include cookies if any
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -22,6 +23,7 @@ export const authFetch = async (url, options = {}) => {
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/refresh-super-admin`,
       {
         method: "POST",
+        credentials: "include", // 🔥 THIS IS THE KEY
         headers: {
           "Content-Type": "application/json",
         },
@@ -36,13 +38,14 @@ export const authFetch = async (url, options = {}) => {
     }
 
     const refreshData = await refreshRes.json();
-
     const newToken = refreshData.accessToken;
+
     localStorage.setItem("adminAccessToken", newToken);
 
     // 🔁 Retry original request with new token
     return fetch(url, {
       ...options,
+      credentials: "include", 
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${newToken}`,

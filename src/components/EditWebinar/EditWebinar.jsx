@@ -41,7 +41,7 @@ const EditWebinar = ({ webinar }) => {
             designation: "",
             worksAt: "",
             description: "",
-            imageFile: null,
+            image: null,
             preview: null,
         }
     ]);
@@ -244,18 +244,47 @@ const EditWebinar = ({ webinar }) => {
     };
 
     const addTrainer = () => {
-    setTrainers([
-        ...trainers,
-        {
-            trainerName: "",
-            designation: "",
-            worksAt: "",
-            description: "",
-            trainerImageFile: null,
-            trainerPreview: null,
-        },
-    ]);
-};
+        setTrainers([
+            ...trainers,
+            {
+                trainerName: "",
+                designation: "",
+                worksAt: "",
+                description: "",
+                image: null,
+                trainerPreview: null,
+            },
+        ]);
+    };
+
+    const removeTrainer = async (index) => {
+        const trainer = trainers[index];
+        const trainerId = trainer.trainerId;
+        const webinarId = webinar._id
+
+        if (!trainerId) {
+            // unsaved trainer: just remove locally
+            setTrainers(prev => prev.filter((_, i) => i !== index));
+            return;
+        }
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/remove-trainer`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ webinarId, trainerId }),
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Failed to remove trainer");
+
+            // remove from state after successful deletion
+            setTrainers(prev => prev.filter((t) => t.trainerId !== trainerId));
+            console.log("Trainer removed:", data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     //Trainer Image
     const handleTrainerImageChange = (e, index) => {
@@ -269,25 +298,26 @@ const EditWebinar = ({ webinar }) => {
             URL.revokeObjectURL(updated[index].trainerPreview);
         }
 
-        updated[index].trainerImageFile = file;
+        updated[index].image = file;
         updated[index].trainerPreview = URL.createObjectURL(file);
 
         setTrainers(updated);
     };
 
     const removeTrainerImage = (index) => {
-    const updated = [...trainers];
+        const updated = [...trainers];
 
-    // cleanup object URL if it exists
-    if (updated[index].trainerPreview) {
-        URL.revokeObjectURL(updated[index].trainerPreview);
-    }
+        // cleanup object URL if it exists
+        if (updated[index].trainerPreview) {
+            URL.revokeObjectURL(updated[index].trainerPreview);
+        }
 
-    updated[index].trainerImageFile = null;
-    updated[index].trainerPreview = null;
+        updated[index].image = null;
+        updated[index].trainerPreview = null;
 
-    setTrainers(updated);
-};
+        setTrainers(updated);
+    };
+
 
 
     //Og Image
@@ -351,7 +381,7 @@ const EditWebinar = ({ webinar }) => {
         setMetaDescription(webinar.metaDescription || "");
         setSchemaMarkup(webinar.schemaMarkup || "");
 
-         // Images (preview only)
+        // Images (preview only)
         setLogoPreview(webinar.logo?.url || null);
         setOgImagePreview(webinar.ogImage?.url || null);
 
@@ -364,7 +394,7 @@ const EditWebinar = ({ webinar }) => {
                 designation: t.designation || "",
                 worksAt: t.worksAt || "",
                 description: t.description || "",
-                imageFile: null,
+                image: null,
                 trainerPreview: t.trainerImage?.url || null,
             }))
         );
@@ -533,6 +563,8 @@ const EditWebinar = ({ webinar }) => {
 
             // Upload trainer
             for (const trainer of trainers) {
+                console.log("Uploading trainer:", trainer); // ✅ log each trainer
+
                 if (!trainer.trainerName && !trainer.designation && !trainer.worksAt) continue;
 
                 const fdTrainer = new FormData();
@@ -542,7 +574,7 @@ const EditWebinar = ({ webinar }) => {
                 fdTrainer.append("designation", trainer.designation);
                 fdTrainer.append("worksAt", trainer.worksAt);
                 fdTrainer.append("description", trainer.description);
-                if (trainer.imageFile) fdTrainer.append("image", trainer.imageFile);
+                if (trainer.image) fdTrainer.append("image", trainer.image);
 
                 const res = await fetch(
                     `${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/update-trainer`,
@@ -556,6 +588,14 @@ const EditWebinar = ({ webinar }) => {
                 if (!res.ok) throw new Error(data.message || "Trainer update failed");
             }
 
+            console.log("trainers", trainers)
+            const uploadTrainers = { webinarId, trainers };
+
+            await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/update-trainer`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(uploadTrainers),
+            });
 
             if (ogImageFile) {
                 const fdOg = new FormData();
@@ -1275,65 +1315,65 @@ const EditWebinar = ({ webinar }) => {
                                 </label>
 
                                 {/* Hidden file input */}
-                              <input
-    type="file"
-    accept="image/png, image/jpeg"
-    id="webinarLogoInput"
-    style={{ display: "none" }}
-    onChange={handleLogoChange}
-/>
+                                <input
+                                    type="file"
+                                    accept="image/png, image/jpeg"
+                                    id="webinarLogoInput"
+                                    style={{ display: "none" }}
+                                    onChange={handleLogoChange}
+                                />
 
 
                                 {/* Upload UI */}
-                               <div
-    className={styles.imageupload}
-    onClick={() =>
-        document.getElementById("webinarLogoInput")?.click()
-    }
-    style={{ position: "relative" }}
->
-    {logoPreview ? (
-        <>
-            <img
-                src={logoPreview}
-                alt="Webinar Logo"
-                className={styles.previewImage}
-            />
+                                <div
+                                    className={styles.imageupload}
+                                    onClick={() =>
+                                        document.getElementById("webinarLogoInput")?.click()
+                                    }
+                                    style={{ position: "relative" }}
+                                >
+                                    {logoPreview ? (
+                                        <>
+                                            <img
+                                                src={logoPreview}
+                                                alt="Webinar Logo"
+                                                className={styles.previewImage}
+                                            />
 
-            {/* cancel icon */}
-            <button
-                type="button"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setLogoFile(null);
-                    setLogoPreview(null);
+                                            {/* cancel icon */}
+                                            <button
+                                                type="button"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setLogoFile(null);
+                                                    setLogoPreview(null);
 
-                    const input = document.getElementById("webinarLogoInput");
-                    if (input) input.value = "";
-                }}
-                style={{
-                    position: "absolute",
-                    top: "6px",
-                    right: "6px",
-                    width: "24px",
-                    height: "24px",
-                    borderRadius: "50%",
-                    border: "none",
-                    background: "rgba(0,0,0,0.6)",
-                    color: "#fff",
-                    fontSize: "16px",
-                    cursor: "pointer",
-                }}
-            >
-                ×
-            </button>
-        </>
-    ) : (
-        <div className={styles.uploadtext}>
-            Click to upload logo
-        </div>
-    )}
-</div>
+                                                    const input = document.getElementById("webinarLogoInput");
+                                                    if (input) input.value = "";
+                                                }}
+                                                style={{
+                                                    position: "absolute",
+                                                    top: "6px",
+                                                    right: "6px",
+                                                    width: "24px",
+                                                    height: "24px",
+                                                    borderRadius: "50%",
+                                                    border: "none",
+                                                    background: "rgba(0,0,0,0.6)",
+                                                    color: "#fff",
+                                                    fontSize: "16px",
+                                                    cursor: "pointer",
+                                                }}
+                                            >
+                                                ×
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <div className={styles.uploadtext}>
+                                            Click to upload logo
+                                        </div>
+                                    )}
+                                </div>
 
                             </div>
 
@@ -1533,9 +1573,7 @@ const EditWebinar = ({ webinar }) => {
                                     <button
                                         type="button"
                                         className={styles.btnremove}
-                                        onClick={() =>
-                                            setTrainers(trainers.filter((_, i) => i !== index))
-                                        }
+                                        onClick={() => removeTrainer(index)} // call API + update state
                                     >
                                         Remove Instructor
                                     </button>
@@ -1543,15 +1581,15 @@ const EditWebinar = ({ webinar }) => {
                             </div>
                         ))}
 
-{/* ➕ Add Instructor button */}
-<button
-    type="button"
-    className={`${styles.btn} ${styles.uploadbtn}`}
-    style={{ marginLeft: "8px" }}
-    onClick={addTrainer}
->
-    Add Instructor
-</button>
+                        {/* ➕ Add Instructor button */}
+                        <button
+                            type="button"
+                            className={`${styles.btn} ${styles.uploadbtn}`}
+                            style={{ marginLeft: "8px" }}
+                            onClick={addTrainer}
+                        >
+                            Add Instructor
+                        </button>
 
 
                         {/* Past Sessions */}

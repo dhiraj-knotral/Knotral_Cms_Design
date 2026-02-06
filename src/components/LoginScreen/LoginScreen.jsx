@@ -58,8 +58,6 @@ const handleLogin = async () => {
       JSON.stringify(data.response.foundUser)
     );
 
-    console.log("super admin",data)
-
     router.push("/dashboard");
 
   } catch (err) {

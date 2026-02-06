@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./Registrations.module.css";
+import { authFetch } from "@/utils/authFetch";
 
 const Registrations = () => {
   const [registrations, setRegistrations] = useState([]);
@@ -15,14 +16,18 @@ const Registrations = () => {
   useEffect(() => {
     const fetchRegistrations = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/registration/get-registrations`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+        // const res = await fetch(
+        //   `${process.env.NEXT_PUBLIC_API_BASE_URL}/registration/get-registrations`,
+        //   {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //   }
+        // );
+        const res = await authFetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/get-registrations`,
+          { method: "POST" }
         );
 
         const data = await res.json();
@@ -139,7 +144,7 @@ const Registrations = () => {
             Clear
           </button>
         )}
-        <button  className={styles.clearBtn} onClick={downloadCSV}>
+        <button className={styles.clearBtn} onClick={downloadCSV}>
           Download CSV
         </button>
       </div>

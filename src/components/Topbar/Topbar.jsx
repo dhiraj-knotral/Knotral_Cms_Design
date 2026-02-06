@@ -20,17 +20,18 @@ const Topbar = ({ title, onMenuClick, menuToggleRef }) => {
         return () => document.removeEventListener("click", handleClickOutside);
     }, []);
 
-    const handleLogout = () => {
-        // Clear auth
-        localStorage.removeItem("adminAccessToken");
-        localStorage.removeItem("adminUser");
+  const handleLogout = async () => {
+  await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/logout-super-admin`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
 
-        // Optional: clear cookie if you added one
-        document.cookie =
-            "adminAccessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
-        router.push("/");
-    };
+  localStorage.clear();
+  router.replace("/");
+};
     return (
         <div className={styles.topbar}>
             <div className={styles.topbarleft}>

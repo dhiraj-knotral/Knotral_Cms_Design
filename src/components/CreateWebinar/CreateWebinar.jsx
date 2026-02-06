@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./CreateWebinar.module.css"
 import slugify from "slugify";
 import { useRouter } from "next/navigation";
+import { authFetch } from "@/utils/authFetch";
 
 const CreateWebinar = () => {
     const router = useRouter();
@@ -331,11 +332,13 @@ const CreateWebinar = () => {
 
             console.log(webinarPayload)
 
-            const createRes = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/create-webinar`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(webinarPayload)
-            });
+            const createRes = await authFetch(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/admin/create-webinar`,
+                {
+                    method: "POST",
+                    body: JSON.stringify(webinarPayload),
+                }
+            );
 
             const webinarData = await createRes.json();
             if (!createRes.ok) throw new Error(webinarData.message || "Error creating webinar");
