@@ -1404,6 +1404,17 @@ const EditWebinar = ({ webinar }) => {
                                 </p> */}
                             </div>
 
+                            <div className={styles.formgroup}>
+                                <label className={styles.formlabel}>Bonus</label>
+                                <input
+                                    type="text"
+                                    className={styles.forminput}
+                                    value={bonus}
+                                    placeholder="Bonus text"
+                                    onChange={(e) => setBonus(e.target.value)}
+                                />
+                            </div>
+
                             {/* <div className={styles.formgroup}>
                                 <label className={styles.formlabel}>Downloadable Resources</label>
 
