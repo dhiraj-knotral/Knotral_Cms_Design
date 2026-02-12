@@ -62,36 +62,80 @@ const WebinarList = ({ webinars, pagination, filters }) => {
     };
 
 
-    const stopWebinar = async (webinarId) => {
-        const confirmStop = window.confirm(
-            "Are you sure you want to stop this webinar?"
+    // const stopWebinar = async (webinarId) => {
+    //     const confirmStop = window.confirm(
+    //         "Are you sure you want to stop this webinar?"
+    //     );
+
+    //     if (!confirmStop) return;
+
+    //     try {
+    //         const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/stop-webinar`, {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({ webinarId }),
+    //         });
+
+    //         const data = await res.json();
+
+    //         if (data.success) {
+    //             alert("Webinar stopped successfully!");
+    //             // Update the webinar locally
+    //             setWebinarList(prev =>
+    //                 prev.map(w =>
+    //                     w._id === webinarId
+    //                         ? { ...w, isStopped: true, isLive: false }
+    //                         : w
+    //                 )
+    //             );
+    //         } else {
+    //             alert(data.message || "Failed to stop webinar");
+    //         }
+    //     } catch (err) {
+    //         console.error(err);
+    //         alert("Something went wrong");
+    //     }
+    // };
+    const updateWebinarStatus = async (webinarId, action) => {
+        const confirmAction = window.confirm(
+            `Are you sure you want to ${action} this webinar?`
         );
 
-        if (!confirmStop) return;
+        if (!confirmAction) return;
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/stop-webinar`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ webinarId }),
-            });
+            const res = await fetch(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/update-webinar-status`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ webinarId, action }),
+                }
+            );
 
             const data = await res.json();
 
             if (data.success) {
-                alert("Webinar stopped successfully!");
-                // Update the webinar locally
+                alert(`Webinar ${action}ped successfully!`);
+
+                // 🔥 Update locally without refresh
                 setWebinarList(prev =>
                     prev.map(w =>
                         w._id === webinarId
-                            ? { ...w, isStopped: true, isLive: false }
+                            ? {
+                                ...w,
+                                isStopped: action === "stop",
+                                isLive: action === "resume",
+                            }
                             : w
                     )
                 );
             } else {
-                alert(data.message || "Failed to stop webinar");
+                alert(data.message || `Failed to ${action} webinar`);
             }
         } catch (err) {
             console.error(err);
@@ -111,7 +155,7 @@ const WebinarList = ({ webinars, pagination, filters }) => {
             const res = await fetch(
                 `${process.env.NEXT_PUBLIC_API_BASE_URL}/webinars/delete-webinar`,
                 {
-                    method: "POST", 
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -265,7 +309,21 @@ const WebinarList = ({ webinars, pagination, filters }) => {
                                     onClick={() => router.push(`/edit-webinar/${webinar.slug}`)}
                                 >
                                     ✏️ Edit
-                                </button>                                <button className={`${styles.btnaction} ${styles.view}`} onClick={() => stopWebinar(webinar._id)}>⏹ Stop</button>
+                                </button>
+                                {/* <button className={`${styles.btnaction} ${styles.view}`} onClick={() => stopWebinar(webinar._id)}>⏹ Stop</button> */}
+                                <button
+                                    className={`${styles.btnaction} ${webinar.isStopped ? styles.resume : styles.view
+                                        }`}
+                                    onClick={() =>
+                                        updateWebinarStatus(
+                                            webinar._id,
+                                            webinar.isStopped ? "resume" : "stop"
+                                        )
+                                    }
+                                >
+                                    {webinar.isStopped ? "▶ Resume" : "⏹ Stop"}
+                                </button>
+
                                 <button className={`${styles.btnaction} ${styles.delete}`} onClick={() => deleteWebinar(webinar._id)}>🗑️ Delete</button>
                             </div>
                         </div>
