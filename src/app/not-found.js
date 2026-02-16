@@ -67,7 +67,7 @@ export default function NotFound() {
         The page you’re looking for doesn’t exist or was moved.
       </p> */}
       <Link
-        href="/"
+        href="/dashboard"
         style={buttonStyle}
       >
         Go Home

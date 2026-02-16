@@ -1,0 +1,96 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f6f9;
+  padding: 20px;
+}
+
+.card {
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  font-size: 14px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--cta-orange);
+}
+
+.button {
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: var(--cta-orange);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.button:hover {
+  background-color: var(--cta-orange-hover);
+}
+
+.button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.message {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #333;
+}
+
+.previewContainer {
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.previewTitle {
+  font-size: 14px;
+  padding: 8px;
+  background-color: #f4f4f4;
+}
+
+.previewImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}

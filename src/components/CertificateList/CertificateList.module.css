@@ -1,0 +1,652 @@
+.container {
+  padding: 30px;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between; /* keeps heading on left, button on right */
+  align-items: center;           /* vertically aligns them */
+  margin-bottom: 20px;
+}
+
+.heading {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;                     /* remove default margin */
+  text-align: left;               /* optional, aligns heading text to left */
+}
+
+.uploadBtn {
+  background: var(--cta-orange);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.uploadBtn:hover {
+  background: var(--cta-orange-hover);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.content {
+  padding: 15px;
+}
+
+/* ============================= */
+/* Buttons */
+/* ============================= */
+
+.actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.viewBtn,
+.sendBtn,
+.deleteBtn {
+  flex: 1;
+  text-align: center;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+/* View */
+.viewBtn {
+  background: #4caf50;
+}
+
+/* Send */
+.sendBtn {
+  background: #2196f3;
+}
+
+/* Delete */
+.deleteBtn {
+  background: #f44336;
+}
+
+.viewBtn:hover,
+.sendBtn:hover,
+.deleteBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: #fff;
+  width: 700px;
+  max-width: 95%;
+  padding: 20px;
+  border-radius: 10px;
+  height: 85vh;              /* fixed height */
+  display: flex;
+  flex-direction: column;    /* IMPORTANT */
+}
+
+
+/* ============================= */
+/* DataTable Inside Modal */
+/* ============================= */
+
+.tableWrapper {
+  margin-top: 15px;
+  flex: 1;                  /* takes remaining space */
+  overflow-y: auto;         /* ONLY table scrolls */
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  min-width: 450px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table thead {
+  background: #f8fafc;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.table th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #f1f1f1;
+  color: #4b5563;
+}
+
+.table tbody tr:hover {
+  background: #f3f6ff;
+}
+
+.checkboxCol {
+  width: 50px;
+  text-align: center;
+}
+
+.table input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.noData {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+.emailCell {
+  word-break: break-word;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* ============================= */
+/* Add Email Section */
+/* ============================= */
+
+.addEmailSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.addEmailSection input {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease;
+  width: 100%;
+}
+
+.addEmailSection input:focus {
+  border-color: #2196f3;
+}
+
+.addEmailSection button {
+  padding: 8px 14px;
+  background: #2196f3;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.addEmailSection button:hover {
+  background: #1976d2;
+  transform: translateY(-1px);
+}
+
+
+
+/* ============================= */
+/* Modal Actions */
+/* ============================= */
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modalActions button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Cancel Button */
+.modalActions button:first-child {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.modalActions button:first-child:hover {
+  background: #d5d5d5;
+}
+
+/* Confirm Send Button */
+.modalActions button:last-child {
+  background: #4caf50;
+  color: #fff;
+}
+
+.modalActions button:last-child:hover {
+  background: #43a047;
+  transform: translateY(-1px);
+}
+
+/* ============================= */
+/* Second Email Compose Modal */
+/* ============================= */
+
+.smallModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100; /* above main modal */
+}
+
+.smallModal {
+   width: 700px;
+  max-width: 95%;
+  height: 85vh;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: fadeInScale 0.2s ease;
+}
+
+.smallModal h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.smallModal input,
+.smallModal textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.smallModal textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.smallModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.smallModalActions button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.smallModalActions button:first-child {
+  background: #e0e0e0;
+}
+
+.smallModalActions button:last-child {
+  background: #4caf50;
+  color: #fff;
+}
+
+.smallModalActions button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* ============================= */
+/* Email Recipients Field */
+/* ============================= */
+
+.toField {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.toField label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.emailTagsWrapper {
+  min-height: 42px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: #fafafa;
+}
+
+.emailTag {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.noRecipients {
+  font-size: 13px;
+  color: #999;
+}
+
+.sendButton {
+  background: #28a745;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sendButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* 🔥 Spinner */
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.monthFilter {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.monthFilter:hover {
+  border-color: #ff7a00; /* your CTA orange */
+}
+
+/* Focus */
+.monthFilter:focus {
+  border-color: #ff7a00;
+  box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.15);
+}
+
+/* Optional: add custom arrow */
+.monthFilter {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='20' height='20' fill='%23666' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 7l5 5 5-5' stroke='%23666' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+/* ============================= */
+/* Tablets (below 992px) */
+/* ============================= */
+
+@media (max-width: 992px) {
+  .container {
+    padding: 20px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .imageWrapper {
+    height: 180px;
+  }
+
+    .addEmailSection {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .addEmailSection button {
+    grid-column: span 2;
+  }
+}
+
+
+/* ============================= */
+/* Mobile (below 768px) */
+/* ============================= */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .heading {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    border-radius: 8px;
+  }
+
+  .imageWrapper {
+    height: 160px;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .viewBtn,
+  .sendBtn,
+  .deleteBtn {
+    width: 100%;
+  }
+
+  .addEmailSection {
+    grid-template-columns: 1fr;
+  }
+
+  .addEmailSection button {
+    width: 100%;
+  }
+}
+
+
+/* ============================= */
+/* Small Mobile (below 480px) */
+/* ============================= */
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .heading {
+    font-size: 18px;
+  }
+
+  .imageWrapper {
+    height: 140px;
+  }
+
+  .viewBtn,
+  .sendBtn,
+  .deleteBtn {
+    font-size: 13px;
+    padding: 7px;
+  }
+
+  .addEmailSection input {
+    font-size: 13px;
+    padding: 7px;
+  }
+
+  .addEmailSection button {
+    font-size: 13px;
+    padding: 7px;
+  }
+}
+
+
+/* ============================= */
+/* Extra Small Devices (360px & below) */
+/* ============================= */
+
+@media (max-width: 360px) {
+  .container {
+    padding: 10px;
+  }
+
+  .heading {
+    font-size: 16px;
+  }
+
+  .grid {
+    gap: 12px;
+  }
+
+  .card {
+    border-radius: 6px;
+  }
+
+  .imageWrapper {
+    height: 130px;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .viewBtn,
+  .sendBtn,
+  .deleteBtn {
+    font-size: 12px;
+    padding: 6px;
+  }
+  .addEmailSection input {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .addEmailSection button {
+    font-size: 12px;
+    padding: 6px;
+  }
+}

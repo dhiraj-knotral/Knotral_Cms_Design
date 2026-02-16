@@ -10,6 +10,9 @@ const pageTitles = {
     "/webinar-list": "Manage Webinars",
     "/create-webinar": "Add New Webinar",
     "/registrations": "Registrations",
+    "/upload-certificates": "Upload Certificates",
+    "/certificate-list": "Certificate List",
+
 
 
 };

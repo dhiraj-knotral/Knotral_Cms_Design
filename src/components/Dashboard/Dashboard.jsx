@@ -206,10 +206,10 @@ const Dashboard = ({ webinars }) => {
                                 <div className={styles.quickactionicon}>➕</div>
                                 <div className={styles.quickactionlabel}>Add New Webinar</div>
                             </Link>
-                            <a href="/cms/certifications/new" className={styles.quickactionbtn}>
+                            <Link href="/upload-certificates" className={styles.quickactionbtn}>
                                 <div className={styles.quickactionicon}>🏆</div>
                                 <div className={styles.quickactionlabel}>Create Certification</div>
-                            </a>
+                            </Link>
                             <a href="/cms/emails/new" className={styles.quickactionbtn}>
                                 <div className={styles.quickactionicon}>✉️</div>
                                 <div className={styles.quickactionlabel}>Send Email Campaign</div>
