@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import styles from "./Registrations.module.css";
 import { authFetch } from "@/utils/authFetch";
+import moment from "moment";
 
 const Registrations = () => {
   const [registrations, setRegistrations] = useState([]);
@@ -55,15 +56,13 @@ const Registrations = () => {
       );
     }
 
-    if (searchDate) {
-      filtered = filtered.filter(r => {
-        if (!r.Webinar_Date_TIme) return false;
-        const webinarDate = new Date(r.Webinar_Date_TIme)
-          .toISOString()
-          .split("T")[0];
-        return webinarDate === searchDate;
-      });
-    }
+  if (searchDate) {
+  filtered = filtered.filter(r => {
+    if (!r.createdAt) return false;
+
+    return moment(r.createdAt).format("YYYY-MM-DD") === searchDate;
+  });
+}
 
     setFilteredRegistrations(filtered);
   }, [searchForm, searchDate, registrations]);
@@ -88,8 +87,8 @@ const Registrations = () => {
       r.Email || "",
       r.Mobile || "",
       r.FORM_NAME || "",
-      r.Webinar_Date_TIme
-        ? new Date(r.Webinar_Date_TIme).toLocaleString()
+      r.createdAt
+        ? new Date(r.createdAt).toLocaleString()
         : "",
       r.Company || "",
       r.Designation || "",
@@ -160,7 +159,7 @@ const Registrations = () => {
                 <th>Email</th>
                 <th>Mobile</th>
                 <th>Form Name</th>
-                <th>Webinar Date</th>
+                <th>Created Date</th>
                 <th>Company</th>
 
               </tr>
@@ -173,8 +172,8 @@ const Registrations = () => {
                   <td>{r.Mobile}</td>
                   <td>{r.FORM_NAME}</td>
                   <td>
-                    {r.Webinar_Date_TIme
-                      ? new Date(r.Webinar_Date_TIme).toLocaleString()
+                    {r.createdAt
+                      ? new Date(r.createdAt).toLocaleString()
                       : "—"}
                   </td>
                   <td>{r.Company || "—"}</td>
