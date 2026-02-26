@@ -74,9 +74,9 @@ const Registrations = () => {
       "Email",
       "Mobile",
       "Form Name",
-      "Webinar Date",
-      "Company",
+      "Created Date",
       "Designation",
+      "Company",
       "City",
     ];
 
