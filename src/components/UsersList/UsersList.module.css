@@ -1,0 +1,418 @@
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 80vh;
+}
+
+/* ================= WRAPPER ================= */
+.wrapper {
+  padding: 24px 24px 8px 24px;
+  overflow-x: hidden;
+}
+
+/* Status & error */
+.status {
+  padding: 20px;
+  font-size: 16px;
+}
+
+.error {
+  padding: 20px;
+  color: #c62828;
+  background: #fdecea;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+}
+
+/* ================= TABLE ================= */
+
+.tableContainer {
+  width: 100%;
+  height: 470px;
+  overflow-x: auto;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 1100px;
+}
+
+.table th {
+  background-color: #f4f6f8;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.table th,
+.table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.table tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* Column widths */
+.table th:nth-child(1),
+.table td:nth-child(1) { width: 180px; }
+
+.table th:nth-child(2),
+.table td:nth-child(2) { width: 220px; }
+
+.table th:nth-child(3),
+.table td:nth-child(3) { width: 150px; }
+
+.table th:nth-child(4),
+.table td:nth-child(4) { width: 200px; }
+
+.table th:nth-child(5),
+.table td:nth-child(5) { width: 140px; }
+
+.table th:nth-child(6),
+.table td:nth-child(6) { width: 120px; }
+
+.table th:nth-child(7),
+.table td:nth-child(7) { width: 200px; }
+
+.table th:nth-child(8),
+.table td:nth-child(8) { width: 180px; }
+
+/* ================= SEARCH ================= */
+
+.searchBar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: center;
+}
+
+.searchBar input {
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
+  min-width: 220px;
+}
+
+.searchBar input[type="date"] {
+  min-width: 160px;
+}
+
+.clearBtn {
+  padding: 8px 14px;
+  font-size: 13px;
+  border: none;
+  background-color: var(--cta-orange);
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.clearBtn:hover {
+  background-color: var(--cta-orange-hover);
+}
+
+.clearBtn:disabled {
+  background-color: #ccc; /* keep neutral */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ================= PAGINATION ================= */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+
+  margin-top: auto; /* 🔥 pushes to bottom */
+  flex-wrap: wrap;
+}
+
+.pagebtn {
+  padding: 0.6rem 1rem;
+  border: 2px solid var(--bg-light);
+  color: var(--black);
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pagebtn:hover {
+  border-color: var(--cta-orange);
+  color: var(--cta-orange);
+}
+
+.pagebtn.active {
+  background: var(--cta-orange);
+  border-color: var(--cta-orange);
+  color: white;
+}
+
+/* ============================= */
+/* MODAL OVERLAY ============================= */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 10px;
+}
+
+/* ============================= */
+/* MODAL BOX ============================= */
+
+.modal {
+  width: 700px;
+  max-width: 95%;
+  height: 85vh;
+  background: #fff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Modal Title */
+.modal h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+/* ============================= */
+/* MODAL INPUTS ============================= */
+
+.modal input,
+.modal textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.modal textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+/* ============================= */
+/* TABLE INSIDE MODAL ============================= */
+
+.tableWrapper {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* ============================= */
+/* MODAL ACTIONS ============================= */
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.modalActions button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+/* Cancel Button */
+.modalActions button:first-child {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.modalActions button:first-child:hover {
+  background: #d5d5d5;
+}
+
+/* Primary Button */
+.modalActions button:last-child {
+  background: #4caf50;
+  color: #fff;
+}
+
+.modalActions button:last-child:hover {
+  background: #43a047;
+}
+
+.modalActions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* ================= TABLET ================= */
+@media (max-width: 768px) {
+
+  .wrapper {
+    padding: 12px;
+  }
+
+  .searchBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .searchBar input,
+  .searchBar input[type="date"],
+  .clearBtn {
+    width: 100%;
+  }
+
+  .tableContainer {
+    height: 300px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table {
+    min-width: 900px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .table th {
+    font-size: 11px;
+  }
+
+  .pagination {
+      margin-top: 0px; /* 🔥 pushes to bottom */
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .pagebtn {
+    padding: 6px 8px;
+    font-size: 12px;
+    min-width: 32px;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+
+    .pageContainer{
+        min-height: 90vh;
+    }
+
+  .wrapper {
+    padding: 8px;
+  }
+
+  .status,
+  .error {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .table {
+    min-width: 800px;
+  }
+
+  .table th,
+  .table td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .pagination {
+    gap: 4px;
+    padding: 10px;
+  }
+
+  .pagebtn {
+    padding: 5px 6px;
+    font-size: 11px;
+    min-width: 28px;
+  }
+
+  .tableContainer::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .tableContainer::-webkit-scrollbar-thumb {
+    background: #cfd8dc;
+    border-radius: 4px;
+  }
+}
+
+/* ================= 320px ================= */
+@media (max-width: 320px) {
+
+  .wrapper {
+    padding: 6px;
+  }
+
+  .table {
+    min-width: 650px;
+  }
+
+  .table th,
+  .table td {
+    padding: 5px 6px;
+    font-size: 10px;
+  }
+
+  .pagination {
+    gap: 3px;
+    padding: 8px;
+  }
+
+  .pagebtn {
+    padding: 4px 5px;
+    font-size: 10px;
+    min-width: 24px;
+    border-radius: 5px;
+  }
+
+  .searchBar input,
+  .searchBar input[type="date"],
+  .clearBtn {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+}

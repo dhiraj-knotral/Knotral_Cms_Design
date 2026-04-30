@@ -13,6 +13,7 @@ const pageTitles = {
     "/upload-certificates": "Upload Certificates",
     "/certificate-list": "Certificate List",
     "/leads": "Leads",
+    "/users": "Users",
 
 
 
