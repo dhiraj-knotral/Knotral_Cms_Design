@@ -47,25 +47,30 @@ const Registrations = () => {
   }, []);
 
   /* 🔍 FILTER LOGIC */
-  useEffect(() => {
-    let filtered = [...registrations];
+useEffect(() => {
+  let filtered = [...registrations];
 
-    if (searchForm) {
-      filtered = filtered.filter(r =>
-        r.FORM_NAME?.toLowerCase().includes(searchForm.toLowerCase())
-      );
-    }
+  // ✅ only future webinars again as base
+  filtered = filtered.filter(r => {
+    if (!r.Webinar_Date_TIme) return false;
+    return moment(r.Webinar_Date_TIme).isSameOrAfter(moment(), "day");
+  });
+
+  if (searchForm) {
+    filtered = filtered.filter(r =>
+      r.FORM_NAME?.toLowerCase().includes(searchForm.toLowerCase())
+    );
+  }
 
   if (searchDate) {
-  filtered = filtered.filter(r => {
-    if (!r.createdAt) return false;
+    filtered = filtered.filter(r => {
+      if (!r.createdAt) return false;
+      return moment(r.createdAt).format("YYYY-MM-DD") === searchDate;
+    });
+  }
 
-    return moment(r.createdAt).format("YYYY-MM-DD") === searchDate;
-  });
-}
-
-    setFilteredRegistrations(filtered);
-  }, [searchForm, searchDate, registrations]);
+  setFilteredRegistrations(filtered);
+}, [searchForm, searchDate, registrations]);
 
   const downloadCSV = () => {
     const headers = [

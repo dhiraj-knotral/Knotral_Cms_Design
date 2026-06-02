@@ -149,13 +149,13 @@ const Dashboard = ({ webinars }) => {
                         </div>
                     </div>
 
-                    <div className={styles.contentcard}>
+                    {/* <div className={styles.contentcard}>
                         <div className={styles.cardheader}>
                             <h2 className={styles.cardtitle}>Recent Activity</h2>
                             <a href="/cms/activity" className={styles.cardaction}>View All →</a>
                         </div>
                         <div className={styles.cardbody}>
-                            <ul className={styles.activitylist}>
+                            <ul className={styles.activitylist}> */}
                                 {/* <li className={styles.activityitem}>
                                     <div className={`${styles.activityicon} ${styles.newuser}`}>👤</div>
                                     <div className={styles.activitycontent}>
@@ -163,13 +163,13 @@ const Dashboard = ({ webinars }) => {
                                         <div className={styles.activitytime}>2 hours ago</div>
                                     </div>
                                 </li> */}
-                                <li className={styles.activityitem}>
+                                {/* <li className={styles.activityitem}>
                                     <div className={`${styles.activityicon} ${styles.newwebinar}`}>🎓</div>
                                     <div className={styles.activitycontent}>
                                         <div className={styles.activitytitle}>New webinar published: "{latestLiveWebinar.title}"</div>
                                         <div className={styles.activitytime}>{moment(latestLiveWebinar.createdAt).fromNow()}</div>
                                     </div>
-                                </li>
+                                </li> */}
                                 {/* <li className={styles.activityitem}>
                                     <div className={`${styles.activityicon} ${styles.registration}`}>📝</div>
                                     <div className={styles.activitycontent}>
@@ -191,9 +191,9 @@ const Dashboard = ({ webinars }) => {
                                         <div className={styles.activitytime}>3 days ago</div>
                                     </div>
                                 </li> */}
-                            </ul>
-                        </div>
-                    </div>
+                            {/* </ul>
+                        </div> */}
+                    {/* </div> */}
                 </div>
 
                 <div className={styles.contentcard}>
